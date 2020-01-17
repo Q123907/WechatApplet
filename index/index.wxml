@@ -1,0 +1,4 @@
+<view class="intro">
+    获取用户地址
+     <openSetting  bindcallback="addAddress" method="chooseAddress"></openSetting>
+</view>
