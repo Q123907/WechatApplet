@@ -25,6 +25,24 @@
       type: Object,
       value: {}
     },
+    //拒绝授权后是否需要提示弹窗 在进入设置授权页
+    showModal: {
+      type: Boolean,
+      value: true
+    },
+    //拒绝授权后立即提示授权设置授权信息进入授权页
+    immediatelyShowModal: {
+      type: Boolean,
+      value: true
+    },
+    //弹窗提示信息
+    modalObj: {
+      type: Object,
+      value: {
+        title: '添加收货地址',
+        content: '是否允许小程序使用您的地址信息',
+      }
+    }
   },
     /**
    * method 调用微信方法 以下为取值范围
