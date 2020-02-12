@@ -1,3 +1,2 @@
 <!--components/openSetting/openSetting.wxml-->
-<button  class="btn"  hover-class="none" bindtap="methodCall"  wx:if="{{openType==''}}"   ></button> 
-<button  class="btn"  hover-class="none" open-type="openSetting" wx:else  bindopensetting="openSetting"></button> 
+<button  class="btn"  hover-class="none" bindtap="getSetting"  ></button> 
