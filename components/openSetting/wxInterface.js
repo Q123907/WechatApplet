@@ -1,11 +1,4 @@
-//添加finally：因为还有一个参数里面还有一个complete方法。
-Promise.prototype.finally = function (callback) {
-  let P = this.constructor;
-  return this.then(
-    value => P.resolve(callback()).then(() => value),
-    reason => P.resolve(callback()).then(() => { throw reason })
-  );
-};
+
 
 //封装异步api
 export const wxPromisify = fn => {
