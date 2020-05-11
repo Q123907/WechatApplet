@@ -7,16 +7,18 @@
 		"urlCheck": true,
 		"es6": true,
 		"postcss": true,
+		"preloadBackgroundData": false,
 		"minified": true,
 		"newFeature": true,
 		"autoAudits": false,
 		"coverView": true,
 		"showShadowRootInWxmlPanel": true,
-		"scopeDataCheck": false
+		"scopeDataCheck": false,
+		"useCompilerModule": true
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.10.0",
-	"appid": "",
+	"appid": "wx7e9a6050921a829e",
 	"projectname": "openSetting",
 	"debugOptions": {
 		"hidedInDevtools": []

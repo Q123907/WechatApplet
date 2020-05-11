@@ -1,4 +1,3 @@
-let app = getApp()
 import {
   scopeList,
   wxPromisify
@@ -64,15 +63,14 @@ Component({
         title: '添加收货地址',
         content: '是否允许小程序使用您的地址信息',
       }
-    }
+    },
   },
 
   /**
    * 组件的初始数据
    */
   data: {
-    //是否显示获取用户信息的button
-    openType: ''
+
   },
 
   /**
@@ -88,9 +86,6 @@ Component({
       let getSettingInfo = e.authSetting
       let promise
       if (getSettingInfo[authorization] === true) { //成功后回调函数
-        this.setData({
-          openType: ''
-        })
         //立即执行
         if (immediately) {
           this.methodCall()
@@ -107,7 +102,6 @@ Component({
       let {
         authorization,
         showModal,
-        modalObj,
         loading
       } = this.data
       if (loading) return
@@ -116,7 +110,7 @@ Component({
       wx.getSetting({
         success: (res) => {
           if (res.authSetting[authorization] === false) {
-            if (showModal) {
+            if (showModal) { //判断是否需要调用提示框
               this.wxShowModal()
             } else {
               this.wxOpenSetting()
@@ -131,6 +125,7 @@ Component({
         }
       })
     },
+    //调用提示框
     wxShowModal() {
       let {
         modalObj
@@ -138,12 +133,14 @@ Component({
       wxPromisify(wx.showModal)(modalObj).then(modal => {
         if (modal.confirm) {
           this.wxOpenSetting()
+        }else{
+          this.callback(Promise.reject('取消授权'))
         }
       })
     },
+    //调用设置授权
     wxOpenSetting() {
       wxPromisify(wx.openSetting)().then((e) => {
-        console.log('e', e)
         this.openSetting(e)
       })
     },
