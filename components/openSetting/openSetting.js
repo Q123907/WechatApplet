@@ -2,6 +2,7 @@ import {
   scopeList,
   wxPromisify
 } from './wxInterface.js'
+import Authorization from './method'
 Component({
   /**
    * 组件的属性列表
@@ -77,139 +78,39 @@ Component({
    * 组件的方法列表
    */
   methods: {
-    //点击按钮授权回调
-    openSetting: function(e) {
-      let {
-        immediately,
-        authorization
-      } = this.data
-      let getSettingInfo = e.authSetting
-      let promise
-      if (getSettingInfo[authorization] === true) { //成功后回调函数
-        //立即执行
-        if (immediately) {
-          this.methodCall()
-          return
-        }
-        promise = Promise.resolve('success')
-      } else {
-        promise = Promise.reject('err')
-      }
-      this.callback(promise)
-    },
-    //判断是否有过授权
+    //调用授权方法
     getSetting() {
       let {
-        authorization,
-        showModal,
-        loading
-      } = this.data
-      if (loading) return
-      this.data.loading = true
-      // 页面被展示
-      wx.getSetting({
-        success: (res) => {
-          if (res.authSetting[authorization] === false) {
-            if (showModal) { //判断是否需要调用提示框
-              this.wxShowModal()
-            } else {
-              this.wxOpenSetting()
-            }
-          } else {
-            this.methodCall()
-          }
-          this.data.loading = false
-        },
-        fail: () => {
-          this.data.loading = false
-        }
-      })
-    },
-    //调用提示框
-    wxShowModal() {
-      let {
-        modalObj
-      } = this.data
-      wxPromisify(wx.showModal)(modalObj).then(modal => {
-        if (modal.confirm) {
-          this.wxOpenSetting()
-        }else{
-          this.callback(Promise.reject('取消授权'))
-        }
-      })
-    },
-    //调用设置授权
-    wxOpenSetting() {
-      wxPromisify(wx.openSetting)().then((e) => {
-        this.openSetting(e)
-      })
-    },
-    //执行调用方法
-    methodCall() {
-      let {
-        method,
-        authorization,
+        promise,
         immediately,
-        reqData,
-        immediatelyShowModal
+        showModal,
+        immediatelyShowModal,
+        modalObj,
+        authorizationObj
       } = this.data
-      let promise
-      if (!immediately) {
-        promise = wxPromisify(wx.authorize)({
-          scope: authorization
-        })
-      } else {
-        promise = wxPromisify(wx[method])(reqData)
-      }
-      promise.then(res => {
-        this.callback(promise)
-      }).catch(err => {
-        //拒绝授权调用
-        if (err.errMsg.includes('fail auth')) {
-          if (immediatelyShowModal) { //根据条件判断拒绝授权后是否弹窗提示用户
-            this.wxShowModal()
-            return
-          }
-        }
-        this.callback(promise)
+      authorizationObj.runModal({
+        doneCallback: (data) => this.callback(data),
+        promise,
+        immediately,
+        showModal,
+        immediatelyShowModal,
+        modalObj
       })
     },
     callback(data) {
-      let {
-        promise,
-        immediatelyShowModal
-      } = this.data
-      if (promise) {
-        this.triggerEvent('callback', {
-          promise: data
-        })
-        return
-      }
-      data.then(res => {
-        this.triggerEvent('callback', {
-          data: res
-        })
-      })
+      this.triggerEvent('callback', data)
     },
   },
   ready() {
     let {
       method,
-      immediately
+      reqData,
+      immediately,
     } = this.data
-    if (method == 'getUserInfo') {
-      throw Error('openSetting组件：暂不支持getUserInfo建议 感觉单独封装getUserInfo登录组件比较好')
-    }
-    if (method === '') {
-      throw Error(`openSetting组件：method传参不能为空`)
-    }
-    if (!scopeList[method]) {
-      throw Error(`openSetting组件：暂无${method}方法请修改`)
-    }
-    if (method == 'camera' && immediately) {
-      console.warn('openSetting组件：camera暂不支持离职执行将为你转为获取授权')
-      this.data.immediately = false
-    }
-    this.data.authorization = scopeList[method]
+    this.data.authorizationObj = new Authorization({
+      method,
+      reqData,
+    })
   },
+
 })

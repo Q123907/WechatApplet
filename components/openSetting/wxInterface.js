@@ -7,11 +7,9 @@ export const wxPromisify = fn => {
       obj.success = function (res) {
         resolve(res)
       }
-
       obj.fail = function (res) {
         reject(res)
       }
-
       fn(obj)
     })
   }
