@@ -89,7 +89,6 @@ Component({
         authorizationObj
       } = this.data
       let res = await authorizationObj.runModal({
-        doneCallback: (data) => this.callback(data),
         promise,
         immediately,
         showModal,

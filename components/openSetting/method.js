@@ -36,7 +36,8 @@
    */
   import {
     wxPromisify,
-    scopeList
+    scopeList,
+    modalObjInfo
   } from './wxInterface.js'
   const backfun = function (doneCallback, promise) {
     return function (data) {
@@ -83,7 +84,7 @@
       //显示弹窗内容
       modalObj = {
         title: '获取授权',
-        content: '是否允许小程序使用您的地址信息',
+        content: `是否允许小程序使用您的`,
       },
       //是否立刻执行方法 默认为true 为fasle会调用获取授权方法提前授权无授权数据返回
       immediately = false,
@@ -91,6 +92,7 @@
       // 为false返回成功后的结果，true返回一个promise对象可以自行处理授权失败提示（需要注意openSetting授权返回和授权窗口返回的数据不同）
       promise = false
     }) {
+      modalObj.content = `${modalObj.content}${modalObjInfo[this.method]}`
       if (this.method == 'camera' && immediately) {
         console.warn('openSetting组件：camera暂不支持离职执行将为你转为获取授权')
         immediately = false
