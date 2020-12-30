@@ -67,42 +67,68 @@
       if (!scopeList[method]) {
         throw Error(`openSetting组件：暂无${method}方法请修改`)
       }
+      this.openSetting = false
       this.loading = false
       this.method = method //微信方法
       this.authorization = scopeList[method] //微信授权值
       this.reqData = reqData //执行微信方法时入参
     }
-    //调用设置
-    runWxOpenSetting(callback, immediately) {
-      this.wxOpenSetting().then(res => {
-        //判断是否立即执行
-        callback(immediately ? this.getWxMethod() : Promise.resolve(res))
-      }).catch(err => {
-        console.log('err',err)
-        callback(Promise.reject('设置授权页未授权'))
-      })
-    }
+
     //执行方法
-    runModal({
+    async runModal({
+      //回调函数
       doneCallback,
+      //是否显示弹窗
       showModal = false,
-      modalObj = false,
+      //显示弹窗内容
+      modalObj = {
+        title: '获取授权',
+        content: '是否允许小程序使用您的地址信息',
+      },
+      //是否立刻执行方法 默认为true 为fasle会调用获取授权方法提前授权无授权数据返回
       immediately = false,
       immediatelyShowModal = false,
+      // 为false返回成功后的结果，true返回一个promise对象可以自行处理授权失败提示（需要注意openSetting授权返回和授权窗口返回的数据不同）
       promise = false
     }) {
       if (this.method == 'camera' && immediately) {
         console.warn('openSetting组件：camera暂不支持离职执行将为你转为获取授权')
         immediately = false
       }
+      if (this.method == 'startLocationUpdateBackground') {
+        console.warn('与其它类型授权不同的是，scope.userLocationBackground 不会弹窗提醒用户。需要用户在设置页中，主动将“位置信息”选项设置为“使用小程序期间和离开小程序后”。开发者可以通过调用wx.openSetting，打开设置页')
+        this.openSetting = true
+      }
       let callback = backfun(doneCallback, promise)
       let promiseObj = ""
       //判断是否获取授权
+      const hasSetting = await this.getSetting()
+      console.log('hasSetting', hasSetting)
+      if (hasSetting === false || this.openSetting) {
+        //需要弹窗
+        if (showModal) {
+          const modalInfo = await this.hasModal(modalObj)
+          if (!modalInfo.confirm) return modalInfo
+        }
+        const wxOpenSetting = await this.wxOpenSetting()
+        console.log('wxOpenSetting111', wxOpenSetting)
+        if (wxOpenSetting == 'user TAP') {
+          arguments[0].showModal = true
+          console.log(arguments[0])
+          return await this.runModal({
+            ...arguments[0]
+          })
+        }
+        return wxOpenSetting && immediately ? this.getWxMethod() : Promise.resolve()
+      } else {
+        return immediately ? this.getWxMethod() : this.getAuthorize()
+      }
+      return
       this.getSetting().then(res => {
         //拒绝授权
         if (res === false) {
           if (showModal) { //判断是否需要调用提示框
-            this.wxShowModal(modalObj, ).then(modal => {
+            this.wxShowModal(modalObj).then(modal => {
               if (modal.confirm) { //用户点击确认
                 this.runWxOpenSetting(callback, immediately)
               } else {
@@ -137,49 +163,69 @@
         }
       })
     }
+    //调用设置
+    // async runWxOpenSetting(callback, immediately) {
+    //   await 
+    //   this.wxOpenSetting().then(res => {
+    //     //判断是否立即执行
+    //     callback(immediately ? this.getWxMethod() : Promise.resolve(res))
+    //   }).catch(err => {
+    //     console.log('err', err)
+    //     callback(Promise.reject('设置授权页未授权'))
+    //   })
+    // }
+    //有弹窗时调用
+    async hasModal(modalObj = {}) {
+      const modal = await this.wxShowModal(modalObj)
+      if (modal.confirm) { //用户点击确认
+        return {
+          confirm: true,
+          msg: '弹窗点击确认',
+          errMsg: 'userMoalCancle'
+        }
+      } else {
+        return {
+          confirm: false,
+          msg: '弹窗取消授权用户取消',
+          errMsg: 'userMoalCancle'
+        }
+      }
+    }
     //获取是否授权
-    getSetting(authorization = this.authorization) {
+    async getSetting(authorization = this.authorization) {
       if (this.loading) return
       this.loading = true
-      return new Promise((resolve, reject) => {
-        wxPromisify(wx.getSetting)().then(res => {
-          this.loading = false
-          resolve(res.authSetting[authorization])
-        }).catch((err) => {
-          reject()
-          console.error('wx.getSetting获取授权失败了', err)
-          this.loading = false
-        })
-      })
+      const res = await wxPromisify(wx.getSetting)().catch(err => {})
+      console.log('res', res, authorization)
+      this.loading = false
+      return res && res.authSetting[authorization]
     }
     //调用提示框
     wxShowModal(modalObj = {
-      title: '添加收货地址',
-      content: '是否允许小程序使用您的地址信息',
+
     }) {
       return wxPromisify(wx.showModal)(modalObj)
     }
-    //调用设置授权  当用户授权时返回成功
+    //调起客户端小程序设置界面，返回用户设置的操作结果  当用户授权时返回成功
     //参数 authorization 授权值
-    wxOpenSetting(authorization = this.authorization) {
-      return new Promise((resolve, reject) => {
-        wxPromisify(wx.openSetting)().then(e => {
-          let getSettingInfo = e.authSetting
-          return getSettingInfo[authorization] === true ? resolve('success') : reject('err')
-        }).catch(err => {
-          console.error('调用打开授权方法失败wx.openSetting', err)
-          reject('err')
-        })
+    async wxOpenSetting(authorization = this.authorization) {
+      const openSetting = await wxPromisify(wx.openSetting)().catch(err => {
+        if (err.errMsg.includes('user TAP')) {
+          return 'user TAP'
+        }
       })
+      console.log('吊起用户界面', openSetting)
+      if (openSetting == 'user TAP') return 'user TAP'
+      return openSetting && openSetting.authSetting && openSetting.authSetting[authorization]
     }
-    //只获取授权 
+    //只获取授权,之后调用数据
     //参数 authorization 授权值
     getAuthorize(authorization = this.authorization) {
       return wxPromisify(wx.authorize)({
         scope: authorization
       })
     }
-    //只获取授权 
+    //获取授权成功后数据
     //参数 method 微信方法 reqData请求二外参数
     getWxMethod(method = this.method, reqData = this.reqData) {
       return wxPromisify(wx[method])(reqData)

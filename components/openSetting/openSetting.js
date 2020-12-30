@@ -50,7 +50,7 @@ Component({
     //拒绝授权后是否需要提示弹窗 在进入设置授权页
     showModal: {
       type: Boolean,
-      value: true
+      value: false
     },
     //拒绝授权后立即提示授权设置授权信息进入授权页
     immediatelyShowModal: {
@@ -79,7 +79,7 @@ Component({
    */
   methods: {
     //调用授权方法
-    getSetting() {
+    async getSetting() {
       let {
         promise,
         immediately,
@@ -88,7 +88,7 @@ Component({
         modalObj,
         authorizationObj
       } = this.data
-      authorizationObj.runModal({
+      let res = await authorizationObj.runModal({
         doneCallback: (data) => this.callback(data),
         promise,
         immediately,
@@ -96,6 +96,7 @@ Component({
         immediatelyShowModal,
         modalObj
       })
+      console.log('res获取到的结果', res)
     },
     callback(data) {
       this.triggerEvent('callback', data)

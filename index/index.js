@@ -4,23 +4,17 @@ Page({
   data: {
 
   },
-  onLoad: function () {
+  async onLoad() {
     let authorizationObj = new Authorization({
-      method:"chooseAddress",
+      method: "startLocationUpdateBackground",
     })
-    authorizationObj.runModal({
-      doneCallback: (data) => {
-        console.log('返回的数据',data)
-      },
-      promise:false,
-      immediately:true,
-      showModal:true,
-      immediatelyShowModal:false,
-      modalObj:{
-        title: '添加收货地址哈哈哈',
-        content: '是否允许小程序使用您的地址信息',
-      }
+    const res = await authorizationObj.runModal({
+      promise: false,
+      immediately: false,
+      showModal: false,
+      immediatelyShowModal: false,
     })
+    console.log('res获取结果', res)
   },
   addAddress(data) {
     console.log('获取到的数据', data)

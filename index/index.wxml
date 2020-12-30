@@ -1,4 +1,4 @@
 <view class="intro">
-    获取用户地址
-     <openSetting  bindcallback="addAddress" method="chooseAddress"></openSetting>
+    获取地位置授权
+     <openSetting  bindcallback="addAddress" method="startLocationUpdateBackground"></openSetting>
 </view>
