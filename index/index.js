@@ -69,7 +69,9 @@ Page({
     })
   },
   setModal() {
-
+    this.setData({
+      ['modalObj.customModal.showFn']: this.customModalOpenSetting
+    })
   },
   //组件调用自定义弹窗
   customModalOpenSetting() {
