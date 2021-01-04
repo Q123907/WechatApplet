@@ -1,4 +1,4 @@
 <view class="intro">
     获取地位置授权
-     <openSetting  bindcallback="addAddress" method="startLocationUpdateBackground"></openSetting>
+     <!-- <openSetting  bindcallback="addAddress" method="getLocation"></openSetting> -->
 </view>
