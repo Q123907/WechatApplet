@@ -1,7 +1,3 @@
-import {
-  scopeList,
-  wxPromisify
-} from './wxInterface.js'
 import Authorization from './method'
 Component({
   /**
@@ -38,10 +34,6 @@ Component({
       type: Boolean,
       value: true
     },
-    promise: { //为false返回成功后的结果，true返回一个promise对象可以自行处理授权失败提示（需要注意openSetting授权返回和授权窗口返回的数据不同）
-      type: Boolean,
-      value: false
-    },
     //立即调用方法时传入的数据
     reqData: {
       type: Object,
@@ -53,7 +45,7 @@ Component({
       value: false
     },
     //拒绝授权后立即提示授权设置授权信息进入授权页
-    immediatelyShowModal: {
+    cancelShowModal: {
       type: Boolean,
       value: true
     },
@@ -61,8 +53,17 @@ Component({
     modalObj: {
       type: Object,
       value: {
-        title: '添加收货地址',
-        content: '是否允许小程序使用您的地址信息',
+        showModal: false, //是否显示弹窗
+        //显示弹窗内容 参数参考wxwx.showModal
+        content: {
+          title: '获取授权',
+          content: `是否允许小程序使用您的地理权限哈哈哈`,
+        },
+        //自定义弹窗
+        customModal: {
+          show: false, //显示自定义弹窗
+          showFn: () => {} //自定义弹窗触发回调
+        }
       }
     },
   },
@@ -81,36 +82,36 @@ Component({
     //调用授权方法
     async getSetting() {
       let {
-        promise,
         immediately,
         showModal,
-        immediatelyShowModal,
+        cancelShowModal,
         modalObj,
         authorizationObj
       } = this.data
       let res = await authorizationObj.runModal({
-        promise,
         immediately,
         showModal,
-        immediatelyShowModal,
+        cancelShowModal,
         modalObj
       })
-      console.log('res获取到的结果', res)
+      console.log('res获取到的结果', res.detail)
+      this.triggerEvent('callback', res)
     },
-    callback(data) {
-      this.triggerEvent('callback', data)
+    //自定义组件授权确认调用
+    customModalConfirmResole() {
+      this.data.authorizationObj.customModalConfirmResole()
+    },
+    //自定义组件点击取消调用
+    customModalConfirmReject() {
+      this.data.authorizationObj.customModalConfirmReject()
     },
   },
   ready() {
     let {
       method,
-      reqData,
-      immediately,
     } = this.data
     this.data.authorizationObj = new Authorization({
       method,
-      reqData,
     })
   },
-
 })
