@@ -17,9 +17,17 @@
 - 传入参数
     |  参数   | 类型 | 默认值 |备注|
   |  ----  | ----  | ---- | ---- |
-  | modalObj  | object |  |
-  | immediately | boolean | 是否立即方法
-
+  | modalObj  | object |  | 见下表
+  | immediately | boolean | false | 是否立即方法(false只获取权限不会执行)
+  | cancelShowModal | boolean | false | 用户第一次拒绝时立即弹窗提示需要获取权限
+  | reqData | object | |根据调用方法时需要传入的对象如保存图片到本地时(saveImageToPhotosAlbum)需要传入{filePath:https://***}|
+- modalObj参数
+ |  参数   | 类型  |默认值| 备注
+  |  ----  | ----  | ---- |----|
+  |showModal | boolean |false|是否显示弹窗（用户未触发点击事件调用时会自动触发弹窗)|
+  |content | object | {title: '获取授权',content:'是否允许小程序使用您的****',}| 弹窗内容配置参数与wx.showModal相同不过无成功失败回调
+  |customModal| object| {show: false,showFn: this.showModal} | 自定义弹窗组件show设置自定义弹窗 showFn触发自定义弹窗回调用户点击自定义弹窗后customModalConfirmResole（确认） customModalConfirmReject（取消）需要用户在操作弹窗之后调用
+          
 ```
   /**
    * 组件的属性列表
@@ -51,7 +59,7 @@
       //弹窗参数
       modalObj: {
         showModal: false, //是否显示弹窗
-        //显示弹窗内容 参数参考wxwx.showModal
+        //显示弹窗内容 参数wx.showModal
         content: {
           title: '获取授权',
           content: `是否允许小程序使用您的地理权限哈哈哈`,
