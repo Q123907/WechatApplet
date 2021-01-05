@@ -32,7 +32,7 @@ Component({
     },
     immediately: { //是否立刻执行方法 默认为true 为fasle会调用获取授权方法提前授权无授权数据返回
       type: Boolean,
-      value: true
+      value: false
     },
     //立即调用方法时传入的数据
     reqData: {
@@ -47,7 +47,7 @@ Component({
     //拒绝授权后立即提示授权设置授权信息进入授权页
     cancelShowModal: {
       type: Boolean,
-      value: true
+      value: false
     },
     //弹窗提示信息
     modalObj: {
