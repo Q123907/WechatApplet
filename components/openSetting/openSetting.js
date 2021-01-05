@@ -72,7 +72,7 @@ Component({
    * 组件的初始数据
    */
   data: {
-
+    authorizationObj: null
   },
 
   /**
@@ -81,6 +81,7 @@ Component({
   methods: {
     //调用授权方法
     async getSetting() {
+      this.createAuthorization()
       let {
         immediately,
         showModal,
@@ -105,13 +106,20 @@ Component({
     customModalConfirmReject() {
       this.data.authorizationObj.customModalConfirmReject()
     },
+    //创建授权
+    createAuthorization() {
+      let {
+        authorizationObj,
+        method
+      } = this.data
+      if (authorizationObj) return
+      this.data.authorizationObj = new Authorization({
+        method,
+      })
+    }
   },
   ready() {
-    let {
-      method,
-    } = this.data
-    this.data.authorizationObj = new Authorization({
-      method,
-    })
+    this.createAuthorization()
   },
+
 })

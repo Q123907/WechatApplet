@@ -17,7 +17,14 @@ Page({
     }
   },
   async onLoad() {
-
+    //组件调用
+    // this.selectComponent('#openSetting').getSetting()
+    //本地调用
+    this.createAuthorization()
+  },
+  //本地调用方法
+  createAuthorization() {
+    //本地调用
     let authorizationObj = new Authorization({
       method: "getLocation",
     })
