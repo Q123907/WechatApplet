@@ -13,16 +13,16 @@ Page({
    */
   data: {
     imgObj: {
-      'aroma': 'https://containeruatstorage.blob.core.chinacloudapi.cn/remy/images/aroma2.png', //香气大师
-      'time': 'https://containeruatstorage.blob.core.chinacloudapi.cn/remy/images/time1.png', //风土大师
-      'localCustoms': 'https://containeruatstorage.blob.core.chinacloudapi.cn/remy/images/localCustoms1.png', //时光大师
+      '2': 'https://containeruatstorage.blob.core.chinacloudapi.cn/remy/images/aroma.png', //香气大师
+      '1': 'https://containeruatstorage.blob.core.chinacloudapi.cn/remy/images/time.png', //时光大师
+      '3': 'https://containeruatstorage.blob.core.chinacloudapi.cn/remy/images/localCustoms.png', //风土大师
     },
     imgObjX: {
-      'aroma': 'https://containeruatstorage.blob.core.chinacloudapi.cn/remy/images/aroma1.png', //香气大师
-      'time': 'https://containeruatstorage.blob.core.chinacloudapi.cn/remy/images/time.png', //风土大师
-      'localCustoms': 'https://containeruatstorage.blob.core.chinacloudapi.cn/remy/images/localCustoms.png', //时光大师
+      '2': 'https://containeruatstorage.blob.core.chinacloudapi.cn/remy/images/aromaX.png', //香气大师
+      '1': 'https://containeruatstorage.blob.core.chinacloudapi.cn/remy/images/timeX.png', //时光大师
+      '3': 'https://containeruatstorage.blob.core.chinacloudapi.cn/remy/images/localCustomsX.png', //风土大师
     },
-    pageType: 'aroma', //页面类型 aroma/time/localCustoms
+    pageType: '', //页面类型 aroma/time/localCustoms
     userInfo: {
       pic: 'https://containeruatstorage.blob.core.chinacloudapi.cn/remy/images/pic.png',
       date: '2021/01/09',
@@ -54,16 +54,18 @@ Page({
       method: "saveImageToPhotosAlbum"
     })
   },
+  onImgErr(e){
+    console.log('错误了',e)
+  },
   onImgOK(e) {
+    console.log('e',e)
     this.imagePath = e.detail.path;
     this.setData({
       image: this.imagePath
     })
-    if (this.isSave) {
-      this.saveImage(this.imagePath);
-    }
   },
   async saveImage() {
+    console.log('imagePath',this.imagePath)
     if (this.imagePath && typeof this.imagePath === 'string') {
       wx.showLoading({
         title: '保存中',

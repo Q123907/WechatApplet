@@ -21,6 +21,7 @@
         {
           "name": "pages/canvas/canvas",
           "pathName": "pages/canvas/canvas",
+          "query": "pageType=3",
           "scene": null
         }
       ]

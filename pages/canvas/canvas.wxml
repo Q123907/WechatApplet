@@ -1,5 +1,5 @@
-<painter palette="{{paintPallette}}" class="widget" bindimgOK="onImgOK" use2D="{{true}}" widthPixels="750" />
-<view class="main" bindlongpress="saveImg">
+<painter palette="{{paintPallette}}" class="widget" bindimgOK="onImgOK" bind:imgErr="onImgErr" use2D="{{true}}" widthPixels="750" />
+<view class="main" bindlongpress="saveImage">
   <image src="{{showImgObj[pageType]}}" mode="widthFix" class="bg">
   </image>
   <image src=" {{userInfo.pic}}" mode="widthFix" class="pic">
