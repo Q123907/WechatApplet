@@ -1,0 +1,23 @@
+{
+  "name": "wechatapplet",
+  "version": "1.0.0",
+  "description": "微信小程序开发",
+  "main": "app.js",
+  "dependencies": {
+    "wxml-to-canvas": "^1.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Q123907/WechatApplet.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Q123907/WechatApplet/issues"
+  },
+  "homepage": "https://github.com/Q123907/WechatApplet#readme"
+}
