@@ -1,7 +1,8 @@
 {
   "pages": [
     "index/index",
-    "pages/rtmCanvas/rtmCanvas"
+    "pages/rtmCanvas/rtmCanvas",
+    "pages/canvas/canvas"
   ],
   "window": {
     "backgroundTextStyle": "light",

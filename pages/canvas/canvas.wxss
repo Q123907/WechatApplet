@@ -1,0 +1,79 @@
+/* pages/canvas/canvas.wxss *//* pages/rtmCanvas/rtmCanvas.wxss */
+.main {
+  width: 100vw;
+}
+
+.widget {
+  position: fixed;
+  left: 10000000px;
+  top: 10000000px;
+  width:1125px; height:1833px;
+}
+
+.bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.pic {
+  width: 185rpx;
+  height: 185rpx;
+  border-radius: 92.5rpx;
+  left: 283rpx;
+  top: 338rpx;
+  position: absolute;
+}
+
+.name {
+  width: 750rpx;
+  position: absolute;
+  top: 560rpx;
+  font-size: 32rpx;
+  text-align: center;
+  font-weight: bold;
+}
+
+.date {
+  position: absolute;
+  left: 125rpx;
+  top: 977rpx;
+  font-size: 24rpx;
+}
+
+.number {
+  position: absolute;
+  left: 125rpx;
+  top: 1010rpx;
+  font-size: 24rpx;
+}
+
+.tips {
+  position: absolute;
+  top: 1131rpx;
+  text-align: center;
+  width: 100vw;
+}
+
+.tips view {
+  font-size: 20rpx;
+}
+
+.btn {
+  width: 332rpx;
+  height: 72rpx;
+  background: #000000;
+  border-radius: 3rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 1205rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 28rpx;
+  font-family: SourceHanSansCN;
+  font-weight: bold;
+  color: #FFFFFF;
+}

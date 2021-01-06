@@ -1,6 +1,5 @@
-<wxml-to-canvas class="widget" width="750"  height="1326"></wxml-to-canvas>
-<image src="{{src}}"  class="bg"  mode="widthFix"  bindlongpress="saveImg" show-menu-by-longpress="{{true}}"></image>
-<!-- <view class="main" bindlongpress="saveImg">
+<painter palette="{{paintPallette}}" class="widget" bindimgOK="onImgOK" use2D="{{true}}" widthPixels="750" />
+<view class="main" bindlongpress="saveImg">
   <image src="{{showImgObj[pageType]}}" mode="widthFix" class="bg">
   </image>
   <image src=" {{userInfo.pic}}" mode="widthFix" class="pic">
@@ -11,7 +10,7 @@
   <view class="date">
     {{userInfo.date}}
   </view>
-  <view class="number">  {{userInfo.number}}</view>
+  <view class="number"> {{userInfo.number}}</view>
   <view class="tips">
     <view>长按保存证书</view>
     <view>凭此页在前台入口处可获得干邑精粹礼品一份</view>
@@ -19,4 +18,4 @@
   <view class="btn" catchtap="toHome">
     返回首页
   </view>
-</view> -->
+</view>

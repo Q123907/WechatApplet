@@ -37,8 +37,8 @@
     "minifyWXSS": true
   },
   "compileType": "miniprogram",
-  "libVersion": "2.14.3",
-  "appid": "wx6feb8db6bf81e443",
+  "libVersion": "2.14.0",
+  "appid": "wx826b09120e82dd4c",
   "projectname": "openSetting",
   "debugOptions": {
     "hidedInDevtools": []

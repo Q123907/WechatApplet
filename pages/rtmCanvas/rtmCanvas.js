@@ -54,9 +54,9 @@ Page({
     })
   },
   onReady() {
-    // setTimeout(() => {
-    //   this.setSrc()
-    // }, 500)
+    setTimeout(() => {
+      this.setSrc()
+    }, 500)
   },
   async saveImg() {
     wx.showLoading({
@@ -109,8 +109,12 @@ Page({
       let data = await this.extraImage()
         .catch(err => {
           this.data.srcPromise = null
-          console.log('extraImage', renderToCanvas)
+          console.log('extraImage', err)
         });
+        console.log('data',data)
+        this.setData({
+          src:data
+        })
       return data
     }
     return this.data.srcPromise = fn()
@@ -121,7 +125,7 @@ Page({
       pageType,
       imgObj
     } = this.data
-    const p1 = await this.widget.renderToCanvas({
+     await this.widget.renderToCanvas({
       wxml: wxml({
         ...userInfo,
         bg: imgObj[pageType]
