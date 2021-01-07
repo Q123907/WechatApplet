@@ -1,3 +1,5 @@
+// https://github.com/Kujiale-Mobile/Painter
+// https://lingxiaoyi.github.io/painter-custom-poster/
 import Card from './palette/card';
 import Authorization from './method'
 // src/pages/xml2can/xml2can.js
