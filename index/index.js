@@ -17,8 +17,6 @@ Page({
     }
   },
   async onLoad() {
-    //组件调用
-    // this.selectComponent('#openSetting').getSetting()
     //本地调用
     this.createAuthorization()
   },
@@ -37,9 +35,6 @@ Page({
       authorizationObj,
       modalObj
     } = this.data
-    this.setData({
-      ['modalObj.customModal.showFn']: this.customModal
-    })
     const res = await authorizationObj.runModal({
       //弹窗参数
       modalObj,
@@ -54,11 +49,11 @@ Page({
     })
     console.log('res获取结果', res)
   },
+
   //组件回调
   callback(data) {
     console.log('组件返回的数据获取到的数据', data.detail)
   },
-
   //自定义弹窗
   customModal() {
     wx.showModal({
