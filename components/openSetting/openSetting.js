@@ -32,7 +32,7 @@ Component({
     },
     immediately: { //是否立刻执行方法 默认为true 为fasle会调用获取授权方法提前授权无授权数据返回
       type: Boolean,
-      value: false
+      value: true
     },
     //立即调用方法时传入的数据
     reqData: {
@@ -52,20 +52,13 @@ Component({
     //弹窗提示信息
     modalObj: {
       type: Object,
-      value: {
-        showModal: false, //是否显示弹窗
-        //显示弹窗内容 参数参考wxwx.showModal
-        content: {
-          title: '获取授权',
-          content: `是否允许小程序使用您的地理权限哈哈哈`,
-        },
-        //自定义弹窗
-        customModal: {
-          show: false, //显示自定义弹窗
-          showFn: () => {} //自定义弹窗触发回调
-        }
-      }
+      value: null
     },
+    //是否返回promise数据
+    promise: {
+      type: Boolean,
+      value: false
+    }
   },
 
   /**
@@ -87,15 +80,25 @@ Component({
         showModal,
         cancelShowModal,
         modalObj,
-        authorizationObj
+        authorizationObj,
+        reqData,
+        promise
       } = this.data
-      let res = await authorizationObj.runModal({
+      const p = authorizationObj.runModal({
         immediately,
         showModal,
         cancelShowModal,
-        modalObj
+        modalObj,
+        reqData
       })
-      console.log('res获取到的结果', res.detail)
+      if (promise) {
+        this.triggerEvent('callback', p)
+        return
+      }
+      let res =await p.catch(err => {
+        console.log(err)
+      })
+      if (!res) return
       this.triggerEvent('callback', res)
     },
     //自定义组件授权确认调用

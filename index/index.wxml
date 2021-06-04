@@ -1,5 +1,6 @@
 <view class="intro">
-    获取地位置授权
-    <openSetting bindtap="setModal" bindcallback="callback" id="openSetting" modalObj="{{modalObj}}" method="getLocation">
+    获取地理位置
+    <openSetting bindtap="setModal" bindcallback="callback" id="openSetting" modalObj="{{modalObj}}"
+        method="getLocation">
     </openSetting>
 </view>

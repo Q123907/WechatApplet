@@ -7,12 +7,12 @@ Page({
       //显示弹窗内容 参数参考wxwx.showModal
       content: {
         title: '获取授权',
-        content: `是否允许小程序使用您的地理权限哈哈哈`,
+        content: `是否允许小程序使用您的地理权限`,
       },
       //自定义弹窗
       customModal: {
         show: true, //显示自定义弹窗
-        showFn: () => {} //自定义弹窗触发回调
+        showFn: () => { } //自定义弹窗触发回调
       }
     }
   },
@@ -24,7 +24,7 @@ Page({
   createAuthorization() {
     //本地调用
     let authorizationObj = new Authorization({
-      method: "getLocation",
+      method: "saveImageToPhotosAlbum",
     })
     this.data.authorizationObj = authorizationObj
     this.authorization()
@@ -36,17 +36,13 @@ Page({
       modalObj
     } = this.data
     const res = await authorizationObj.runModal({
-      //弹窗参数
-      modalObj,
-      //是否立刻执行方法 默认为true 为fasle会调用获取授权方法提前授权无授权数据返回
-      immediately: false,
-      //首次拒绝授权后立即提示授权设置授权信息进入授权页
       cancelShowModal: false,
-      //调用时传入的数据
-      reqData: {},
-    }).catch(err => {
-      console.log('错误了', err)
+      modalObj,
+      reqData: {
+        filePath: 'https://fc1tn.baidu.com/it/u=1189779147,4248115718&fm=202&mola=new&crop=v1'
+      },
     })
+
     console.log('res获取结果', res)
   },
 
