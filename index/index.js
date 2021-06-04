@@ -11,7 +11,7 @@ Page({
       },
       //自定义弹窗
       customModal: {
-        show: true, //显示自定义弹窗
+        show: false, //显示自定义弹窗
         showFn: () => { } //自定义弹窗触发回调
       }
     }
@@ -33,11 +33,9 @@ Page({
   async authorization() {
     const {
       authorizationObj,
-      modalObj
     } = this.data
     const res = await authorizationObj.runModal({
       cancelShowModal: false,
-      modalObj,
       reqData: {
         filePath: 'https://fc1tn.baidu.com/it/u=1189779147,4248115718&fm=202&mola=new&crop=v1'
       },
@@ -68,7 +66,8 @@ Page({
   },
   setModal() {
     this.setData({
-      ['modalObj.customModal.showFn']: this.customModalOpenSetting
+      ['modalObj.customModal.showFn']: this.customModalOpenSetting,
+      ['modalObj.customModal.show']: true
     })
   },
   //组件调用自定义弹窗
@@ -76,7 +75,7 @@ Page({
     wx.showModal({
       title: '组件调用',
       success: (res) => {
-        console.log('res', res)
+        console.log('res组件调用', res)
         if (res.confirm) {
           //使用组件方法
           this.selectComponent('#openSetting').customModalConfirmResole()
