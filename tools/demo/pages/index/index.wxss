@@ -1,0 +1,13 @@
+.intro {
+  margin: 30px;
+  text-align: center;
+  height: 100rpx;
+  width: 600rpx;
+  background-color: #333;
+  color: #fff;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  font-weight: bold;
+}
