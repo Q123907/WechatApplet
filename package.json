@@ -1,7 +1,7 @@
 {
-  "name": "miniprogram-custom-component",
-  "version": "1.0.0",
-  "description": "",
+  "name": "miniprogram-opensetting",
+  "version": "1.0.3",
+  "description": "微信小程序授权组件",
   "main": "miniprogram_dist/index.js",
   "scripts": {
     "dev": "gulp dev --develop",

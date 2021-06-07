@@ -13,7 +13,7 @@
 - 创建参数
   |  参数   | 类型  |取值范围|
   |  ----  | ----  | ---- |
-  | method  | srting | getLocation、chooseLocation、startLocationUpdateBackground、chooseAddress、chooseInvoiceTitle、getWeRunData、startRecord、saveImageToPhotosAlbum、saveVideoToPhotosAlbum、camera|
+  | method  | string | getLocation、chooseLocation、startLocationUpdateBackground、chooseAddress、chooseInvoiceTitle、getWeRunData、startRecord、saveImageToPhotosAlbum、saveVideoToPhotosAlbum、camera|
 - 传入参数
     |  参数   | 类型 | 默认值 |备注|
   |  ----  | ----  | ---- | ---- |
@@ -48,7 +48,75 @@
    * camera 摄像头（组件只能提前授权不能立即执行）
    *
    *
+    *
+   * 引入 Authorization类例：
+   *
+   *
+   import Authorization from 'miniprogram-opensetting/method'
+   let authorizationObj = new Authorization({
+      method: "getLocation",
+    })
+    this.data.authorizationObj = authorizationObj
+    const res = await authorizationObj.runModal({
+      //弹窗参数
+      modalObj: {
+        showModal: false, //是否显示弹窗
+        //显示弹窗内容 参数wx.showModal
+        content: {
+          title: '获取授权',
+          content: `是否允许小程序使用您的地理权限哈哈哈`,
+        },
+        //自定义弹窗
+        customModal: {
+          show: false, //显示自定义弹窗
+          showFn: this.showModal //自定义弹窗触发回调
+        }
+      },
+      //是否立刻执行方法 默认为true 为false会调用获取授权方法提前授权无授权数据返回
+      immediately: false,
+      //首次拒绝授权后立即提示授权设置授权信息进入授权页
+      cancelShowModal: false,
+      //调用时传入的数据
+      reqData: {},
+    })
+  //自定义弹窗
+    customModal() {
+      wx.showModal({
+        title: '哈哈哈',
+        success: (res) => {
+          console.log('res', res)
+          if (res.confirm) {
+            //成功时调用
+            this.data.authorizationObj.customModalConfirmResole()
+          } else {
+            //失败是调用
+            this.data.authorizationObj.customModalConfirmReject()
+          }
+        },
+      })
+    },
+   */
+   使用组件例子：
+     <openSetting bindtap="setModal" bindcallback="callback" id="openSetting" modalObj="{{modalObj}}" method="getLocation">
+    </openSetting>
+    //组件调用自定义弹窗
+  customModalOpenSetting() {
+    wx.showModal({
+      title: '组件调用',
+      success: (res) => {
+        console.log('res', res)
+        if (res.confirm) {
+          //使用组件方法
+          this.selectComponent('#openSetting').customModalConfirmResole()
+        } else {
+          //使用组件调用
+          this.selectComponent('#openSetting').customModalConfirmReject()
+        }
+      },
+    })
+  },
 */
 ```
 
-实例代码：[授权组件例子下载](https://developers.weixin.qq.com/s/mGlz6rmO7Te6)
+实例代码：[授权组件例子下载](https://developers.weixin.qq.com/s/mTJOTSml7Uq3)
+参考:[微信小程序组件封装样例](https://github.com/wechat-miniprogram/miniprogram-custom-component)
