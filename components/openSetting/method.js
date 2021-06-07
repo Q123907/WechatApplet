@@ -16,7 +16,7 @@
  * saveVideoToPhotosAlbum 保存视频到系统相册。支持mp4视频格式。
  * camera 摄像头（组件只能提前授权不能立即执行）
  * 
- * 例：
+ * 例： 
  *      
  * let authorizationObj = new Authorization({
     method: "getLocation",
@@ -67,7 +67,7 @@ import {
   modalObjInfo
 } from './wxInterface.js'
 export default class Authorization {
-  constructor({
+  constructor ({
     method,
   }) {
     if (method == 'getUserInfo') {
@@ -254,7 +254,7 @@ export default class Authorization {
   }
   // 检查是否下载
   checkDown() {
-    const { method } = this
+    const {method} = this
     const downArr = ['saveImageToPhotosAlbum', 'saveVideoToPhotosAlbum']
     return downArr.includes(method)
   }

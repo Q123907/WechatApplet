@@ -1,2 +1,2 @@
 <!--components/openSetting/openSetting.wxml-->
-<button  class="btn"  hover-class="none" bindtap="getSetting"  ></button> 
+<videw  class="btn"  hover-class="none" bindtap="getSetting"  ></videw> 
