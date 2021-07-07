@@ -16,7 +16,7 @@
  * saveVideoToPhotosAlbum 保存视频到系统相册。支持mp4视频格式。
  * camera 摄像头（组件只能提前授权不能立即执行）
  * 
- * 例： 
+ * 例：
  *      
  * let authorizationObj = new Authorization({
     method: "getLocation",
@@ -26,7 +26,7 @@
     //弹窗参数
     modalObj: {
       showModal: false, //是否显示弹窗
-      //显示弹窗内容 参数参考wxwx.showModal
+      //显示弹窗内容 参数参考wx.showModal
       content: {
         title: '获取授权',
         content: `是否允许小程序使用您的地理权限哈哈哈`,
@@ -37,7 +37,7 @@
         showFn: this.showModal //自定义弹窗触发回调
       }
     },
-    //是否立刻执行方法 默认为true 为fasle会调用获取授权方法提前授权无授权数据返回
+    //是否立刻执行方法 默认为true 为false会调用获取授权方法提前授权无授权数据返回
     immediately: false,
     //首次拒绝授权后立即提示授权设置授权信息进入授权页
     cancelShowModal: false,
@@ -89,7 +89,7 @@ export default class Authorization {
   async runModal({
     //弹窗参数
     modalObj = null,
-    //是否立刻执行方法 默认为true 为fasle会调用获取授权方法提前授权无授权数据返回
+    //是否立刻执行方法 默认为true 为false会调用获取授权方法提前授权无授权数据返回
     immediately = true,
     //拒绝授权后立即提示授权设置授权信息进入授权页
     cancelShowModal = false,
