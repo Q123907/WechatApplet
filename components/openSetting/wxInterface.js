@@ -22,7 +22,7 @@ export const scopeList = {
   chooseInvoiceTitle: 'scope.invoiceTitle',
   chooseInvoice: 'scope.invoice',
   getWeRunData: 'scope.werun',
-  startRecord: 'scope.invoice',
+  startRecord: 'scope.record',
   saveImageToPhotosAlbum: 'scope.writePhotosAlbum',
   saveVideoToPhotosAlbum: 'scope.writePhotosAlbum',
   camera: 'scope.camera',
