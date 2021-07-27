@@ -119,6 +119,5 @@
 ```
 
 - 实例代码：[授权组件例子下载](https://developers.weixin.qq.com/s/mTJOTSml7Uq3)
-- 参考:[微信小程序组件封装样例](https://github.com/wechat-miniprogram/miniprogram-custom-component)
 - npm 地址:[npm 地址](https://www.npmjs.com/package/miniprogram-opensetting)
 - github 地址:[github 地址](https://github.com/Q123907/WechatApplet/tree/master)
