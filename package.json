@@ -1,6 +1,6 @@
 {
   "name": "miniprogram-opensetting",
-  "version": "1.0.8",
+  "version": "1.0.10",
   "description": "微信小程序授权组件",
   "main": "miniprogram_dist/index.js",
   "scripts": {
@@ -68,10 +68,9 @@
     "typescript": "^3.8.3",
     "vinyl": "^2.2.0",
     "webpack": "^4.29.5",
-    "webpack-node-externals": "^1.7.2"
-  },
-  "dependencies": {
+    "webpack-node-externals": "^1.7.2",
     "@babel/plugin-proposal-optional-chaining": "^7.14.2",
     "babel-plugin-transform-object-rest-spread": "^6.26.0"
-  }
+  },
+  "dependencies": {}
 }
