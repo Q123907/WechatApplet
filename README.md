@@ -1,7 +1,9 @@
 # WechatApplet
 
 微信小程序开发
-
+# 使用直接访问
+- npm 地址:[npm 地址](https://www.npmjs.com/package/miniprogram-opensetting)
+- 安装参考微信小程序的npm安装教程
 ## 小程序组件
 
 ### 授权组件
