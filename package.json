@@ -32,6 +32,19 @@
     "type": "git",
     "url": "https://github.com/Q123907/WechatApplet.git"
   },
+  "keywords": [
+    "微信授权",
+    "wx.openSetting",
+    "wx.getLocation, wx.chooseLocation",
+    "wx.startLocationUpdateBackground",
+    "wx.chooseAddress",
+    "wx.chooseInvoiceTitle",
+    "wx.chooseInvoice",
+    "wx.getWeRunData",
+    "wx.startRecord",
+    "wx.saveImageToPhotosAlbum, wx.saveVideoToPhotosAlbum",
+    "camera"
+  ],
   "author": "wechat-miniprogram",
   "license": "UNLICENSED",
   "devDependencies": {
