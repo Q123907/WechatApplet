@@ -1,6 +1,4 @@
 <view class="intro">
-    获取地理位置
-    <openSetting bindtap="setModal" bindcallback="callback" id="openSetting" modalObj="{{modalObj}}"
-        method="getLocation">
-    </openSetting>
+  获取地理位置
+  <openSetting bindtap="setModal" bindcallback="callback" id="openSetting" reqData="{{addPhoneRepeatCalendarData}}" modalObj="{{modalObj}}" method="addPhoneRepeatCalendar"></openSetting>
 </view>

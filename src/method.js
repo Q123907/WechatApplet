@@ -2,7 +2,7 @@
 /**
  * 组件的属性列表
  * method 调用微信方法 以下为取值范围
- *
+ * https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html
  * getUserInfo 获取用户信息(暂不支持getUserInfo建议 感觉单独封装getUserInfo登录组件比较好)
  *
  * getLocation 获取当前的地理位置、速度。当用户离开小程序后，此接口无法调用。开启高精度定位，接口耗时会增加，可指定 highAccuracyExpireTime 作为超时时间。
@@ -65,8 +65,8 @@
  */
 import {
   wxPromisify,
-  scopeList,
-  modalObjInfo
+  apiList,
+  getAuthorization
 } from './wxInterface'
 
 export default class Authorization {
@@ -75,18 +75,19 @@ export default class Authorization {
     method,
   }) {
     if (method === 'getUserInfo') {
-      throw Error('openSetting组件：暂不支持getUserInfo建议 感觉单独封装getUserInfo登录组件比较好')
+      throw Error('小程序已回收，请使用头像昵称填写或wx.getUserProfile，小游戏可继续调用')
     }
     if (method === '') {
       throw Error('openSetting组件：method传参不能为空')
     }
-    if (!scopeList[method]) {
+    if (!apiList.includes(method)) {
       throw Error(`openSetting组件：暂无${method}方法请修改`)
     }
     this.openSetting = false
     this.loading = false
     this.method = method // 微信方法
-    this.authorization = scopeList[method] // 微信授权值
+    this.authorizationObj = getAuthorization(method)
+    this.authorization = this.authorizationObj.key // 微信授权值
   }
 
   // 执行方法
@@ -102,7 +103,8 @@ export default class Authorization {
   } = {}) {
     // 初始化弹窗数据
     modalObj = this.initModalObj(modalObj)
-    if (this.method === 'camera' && immediately) {
+    const unList = ['camera', 'RecorderManager', 'createVKSession']
+    if (unList.includes(this.method) && immediately) {
       console.warn('openSetting组件：camera暂不支持离职执行将为你转为获取授权')
       immediately = false
     }
@@ -165,7 +167,7 @@ export default class Authorization {
       // 显示弹窗内容
       content: {
         title: '获取授权',
-        content: `是否允许小程序使用您的${modalObjInfo[this.method]}`,
+        content: `是否允许小程序使用您的${this.authorizationObj.title}`,
       },
       // 是否自定义弹窗
       customModal: {
@@ -268,6 +270,9 @@ export default class Authorization {
     method = this.method,
     reqData = {}
   }) {
+    if (!wx[method]) {
+      throw Error(`当前基础库中未找到wx.${method}方法，请调整基础库`)
+    }
     return wxPromisify(wx[method])(reqData)
   }
 

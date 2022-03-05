@@ -1,6 +1,6 @@
 /* eslint-disable import/extensions */
 // eslint-disable-next-line import/no-unresolved
-import Authorization from '../components/method'
+import Authorization from '../../components/method'
 
 Page({
   data: {
@@ -14,8 +14,16 @@ Page({
       // 自定义弹窗
       customModal: {
         show: false, // 显示自定义弹窗
-        showFn: () => { } // 自定义弹窗触发回调
-      }
+        showFn: () => {}, // 自定义弹窗触发回调
+      },
+    },
+    reqData: {
+      filePath:
+        'https://fc1tn.baidu.com/it/u=1189779147,4248115718&fm=202&mola=new&crop=v1',
+    },
+    addPhoneRepeatCalendarData: {
+      title: '测试',
+      startTime: new Date().getTime()
     }
   },
   async onLoad() {
@@ -26,21 +34,19 @@ Page({
   createAuthorization() {
     // 本地调用
     const authorizationObj = new Authorization({
-      method: 'saveImageToPhotosAlbum',
+      method: 'addPhoneRepeatCalendar',
     })
     this.data.authorizationObj = authorizationObj
     this.authorization()
   },
   // 创建组件
   async authorization() {
-    const {
-      authorizationObj,
-    } = this.data
+    const {authorizationObj, addPhoneRepeatCalendarData} = this.data
     const res = await authorizationObj.runModal({
       cancelShowModal: false,
-      reqData: {
-        filePath: 'https://fc1tn.baidu.com/it/u=1189779147,4248115718&fm=202&mola=new&crop=v1'
-      },
+      addPhoneRepeatCalendarData
+    }).catch((err) => {
+      console.log(err)
     })
 
     console.log('res获取结果', res)
@@ -69,7 +75,7 @@ Page({
   setModal() {
     this.setData({
       'modalObj.customModal.showFn': this.customModalOpenSetting,
-      'modalObj.customModal.show': true
+      'modalObj.customModal.show': true,
     })
   },
   // 组件调用自定义弹窗
