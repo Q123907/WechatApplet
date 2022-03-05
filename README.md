@@ -2,6 +2,7 @@
 
 微信小程序开发
 # 使用直接访问
+- 安装 在小程序根目录中运行 1. npm install miniprogram-opensetting -S    2.点击工具 -点击构建npm
 - npm 地址:[npm 地址](https://www.npmjs.com/package/miniprogram-opensetting)
 - 安装参考微信小程序的npm安装教程
 ## 小程序组件
