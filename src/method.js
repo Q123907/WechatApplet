@@ -285,7 +285,7 @@ export default class Authorization {
 
   // 下载图片到本地
   downloadFile(reqData) {
-    if (!reqData.filePath || !this.checkDown()) return Promise.resolve(reqData)
+    if (!reqData.filePath || !this.checkDown() || (!reqData.filePath.includes('http://') && !reqData.filePath.includes('https://'))) return Promise.resolve(reqData)
     return new Promise((resolve, reject) => {
       wx.downloadFile({
         url: reqData.filePath,
